@@ -19,6 +19,7 @@ class Queue
 private:
    Node<T>* head;
    Node<T>* tail;
+   int size=0;
 public:
     Queue()
     {
@@ -37,6 +38,7 @@ public:
             tail->next=newNode;
             tail=newNode;
         }
+        size++;
         return 1;
     }
     T dequeue() {
@@ -54,6 +56,7 @@ public:
             tail = NULL;
         }
         delete temp;
+        size--;
         return data;
     }
     T peek() {
@@ -79,6 +82,21 @@ public:
         }
         cout << endl;
     }
+    void reverse()
+    {
+        T *data=new T [size];
+        int arrSize=size;
+        for (int i = 0; i < arrSize; i++)
+        {
+            data[i]=this->dequeue();
+            
+        }
+        for(int i=arrSize-1;i>=0;i--)
+        {
+            this->enqueue(data[i]);
+        }
+        delete data;
+    }
     ~Queue()
     {
          while (head != NULL) 
@@ -95,9 +113,10 @@ int main() {
     q.enqueue(1) ? cout << "Success" << endl : cout << "Failed" << endl;
     q.enqueue(2) ? cout << "Success" << endl : cout << "Failed" << endl;
     q.enqueue(3) ? cout << "Success" << endl : cout << "Failed" << endl;
-
     q.display();
-
+    q.reverse();
+    q.display();
+/*
     try {
         cout <<q.dequeue() << endl;
         q.display();
@@ -111,6 +130,6 @@ int main() {
     }
 
     q.display();
-
+*/
     return 0;
 }

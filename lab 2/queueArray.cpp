@@ -4,20 +4,23 @@ using namespace std;
 class Queue {
 private:
     int size;
+    int sizeArr;
     int *items;
     int front;
     int rear;
 
 public:
-    Queue(int size) {
+    Queue(int size) 
+    {
         this->size = size;
         front = rear = -1;
         items = new int[size];
+        sizeArr=0;
     }
 
-    bool isFull() 
+    bool isFull()
     {
-        return (rear == size - 1 && front == 0) || (rear + 1 == front);
+        return (rear == size - 1 && front == 0) || (rear == front - 1);
     }
 
     bool isEmpty()
@@ -26,15 +29,15 @@ public:
     }
 
     bool enqueue(int data) {
-        if (isFull()) 
+        if (isFull())
         {
             return false;
         }
 
-        if (isEmpty()) 
+        if (isEmpty())
         {
             front = rear = 0;
-        } else if (rear == size - 1 && front > 0) 
+        } else if (rear == size - 1 && front > 0)
         {
             rear = 0;
         } else {
@@ -42,30 +45,30 @@ public:
         }
 
         items[rear] = data;
+        sizeArr++;
         return true;
     }
 
-    int dequeue() 
+    int dequeue()
     {
-        if (isEmpty()) 
+        if (isEmpty())
         {
             throw "Queue is empty";
         }
 
         int data = items[front];
-        items[front] = 0;
 
-        if (front == rear) 
+        if (front == rear)
         {
             front = rear = -1;
-        } else if (front == size - 1) 
+        } else if (front == size - 1)
         {
             front = 0;
-        } else 
+        } else
         {
             front++;
         }
-
+        sizeArr--;
         return data;
     }
     void peek()
@@ -80,19 +83,25 @@ public:
     }
     void display()
     {
-         if (isEmpty()) {
+        /*if (isEmpty()) {
             cout << "Queue is empty" << endl;
         } else if (front > rear) {
             for (int i = front; i < size; i++) {
                 cout << items[i] << " --> ";
             }
-            for (int i = 0; i <= rear; i++) {
+            for (int i = 0; i <= rear; i++) 
+            {
                 cout << items[i] << " --> ";
             }
         } else {
             for (int i = front; i <= rear; i++) {
                 cout << items[i] << " --> ";
             }
+        }*/
+       cout << sizeArr << endl;
+       for (int i = 0; i < sizeArr; i++) 
+        { 
+            cout << items[(i+front)%(size)] << " --> ";
         }
         cout << endl;
     }
